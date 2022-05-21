@@ -3,46 +3,60 @@ class Node:
         self.value = value
         self.next = None
 
-
-def insert_sorted(root, value):
-    if not isinstance(value, (int, float)):
-        raise "Cannot store non-ints or non-floats"
-    return _insert_sorted(root, None, value)
-
-
-def _insert_sorted(current, prev, value):
-    if value == current.value:
-        node = Node(value)
-        node.next = current.next
-        current.next = node
-        return True
-    if value > current.value:
-        if current.next:
-            _insert_sorted(current.next, current, value)
-        else:
+    def insert_sorted(self, value):
+        if value == self.value:
             node = Node(value)
-            current.next = node
-            return True
-    if value < current.value:
-        node = Node(value)
-        if prev:
-            prev.next = node
-        node.next = current
-        return True
+            node.next = self.next
+            self.next = node
+            return node
+        if value > self.value:
+            if self.next:
+                if value > self.next.value:
+                    return self.next.insert_sorted(value)
+                else:
+                    node = Node(value)
+                    node.next = self.next
+                    self.next = node
+                    return node
+            else:
+                self.next = Node(value)
+                return self.next
+
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def __str__(self):
+        s = ['Nodes']
+        c = self.head
+        while c:
+            s.append(f'{c.value}')
+            c = c.next
+        return ' > '.join(s)
+
+    def insert_sorted(self, value):
+        if not self.head:
+            self.head = Node(value)
+            return self.head
+        elif value < self.head.value:
+            node = Node(value)
+            node.next = self.head
+            self.head = node
+            return node
+        else:
+            return self.head.insert_sorted(value)
 
 
 if __name__ == '__main__':
-    nodes = [Node(i) for i in range(10)]
-    for i, n in enumerate(nodes):
-        n.next = nodes[i + 1] if i < len(nodes) - 1 else None
+    llist = LinkedList()
+    for i in range(10):
+        llist.insert_sorted(i)
 
-    n = nodes[0]
-    insert_sorted(n, -7)
-    insert_sorted(n, 7)
-    insert_sorted(n, 100)
-    insert_sorted(n, 8.5)
-    insert_sorted(n, -4)
+    llist.insert_sorted(-7)
+    llist.insert_sorted(7)
+    llist.insert_sorted(100)
+    llist.insert_sorted(8.5)
+    llist.insert_sorted(-4)
 
-    while n:
-        print(n.value)
-        n = n.next
+    print(llist)
