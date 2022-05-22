@@ -1,4 +1,4 @@
-class HashTable:
+class NSizedNonSafeHashTable:
     def __init__(self, size=10):
         self.num_elements = 0
         self.size = 10
@@ -14,7 +14,7 @@ class HashTable:
 
 
 if __name__ == '__main__':
-    table = HashTable()
+    table = NSizedNonSafeHashTable()
     table.put('hello', 'goodbye')
     table.put('goodbye', 'hello')
     v = table.get('hello')

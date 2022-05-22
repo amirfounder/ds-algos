@@ -1,3 +1,6 @@
+"""Started off too big. Memory issues with this approach.
+"""
+
 from enum import Enum
 
 
