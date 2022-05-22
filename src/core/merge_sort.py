@@ -6,7 +6,7 @@ def split_into_halves(arr):
 def merge_sort(arr):
     n = len(arr)
     if n <= 1:
-        return
+        return arr
 
     left, right = divide(arr)
 
