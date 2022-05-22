@@ -7,9 +7,20 @@ def log_operations(cls):
 
     def log_operation(func):
         def inner(self, *args, **kwargs):
-            print(f'State before calling "{str(func.__name__)}" : {str(self)}')
+            _args = ', '.join([str(a) for a in args])
+            _kwargs = ', '.join([f'{k}={v}' for k, v in kwargs.items()])
+            _params = []
+            if _args:
+                _params.append(_args)
+
+            if _kwargs:
+                _params.append(_kwargs)
+
+            params = ', '.join(_params)
+
+            print(f'PRIOR  -- "{str(func.__name__)}({params})" : {str(self)}')
             func(self, *args, **kwargs)
-            print(f'State after calling "{str(func.__name__)}" : {str(self)}')
+            print(f'AFTER  -- "{str(func.__name__)}({params})" : {str(self)}')
         return inner
 
     for name, function in members:
@@ -25,7 +36,7 @@ class Queue:
         self.items = []
 
     def __str__(self):
-        return ' - '.join([str(x) for x in self.items])
+        return ' - '.join([str(i) for i in self.items])
 
     def add(self, obj):
         self.items.append(obj)
