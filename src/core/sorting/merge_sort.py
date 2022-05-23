@@ -30,6 +30,9 @@ def merge_halves(a, b, temp):
             j += 1
         k += 1
 
+    # temp.extend(a[i:])
+    # temp.extend(b[j:])
+
     while i < len_a:
         temp[k] = a[i]
         i += 1
