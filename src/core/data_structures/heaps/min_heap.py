@@ -3,20 +3,15 @@ class MinHeap:
         self._items = items or []
 
     def peek(self):
-        if not self._items:
-            return
-
-        return self._items[0]
+        if self._items:
+            return self._items[0]
 
     def pop(self):
-        if not self._items:
-            return
-
-        item = self._items.pop(0)
-        self._swap(0, len(self._items) - 1)
-        self._sift_down(0)
-
-        return item
+        if self._items:
+            item = self._items.pop(0)
+            self._swap(0, len(self._items) - 1)
+            self._sift_down(0)
+            return item
 
     def insert(self, item):
         self._items.append(item)
@@ -30,19 +25,16 @@ class MinHeap:
             return
 
         while self._has_left_child(index):
-            pass
+            smallest_index = self._left_child_index_of(index)
+            if self._has_right_child(index) and \
+                    self._items[self._right_child_index_of(index)] < self._items[smallest_index]:
+                smallest_index = self._right_child_index_of(index)
 
-        left_idx = (2 * index) + 1
-        right_idx = left_idx + 1
+            if self._items[index] < self._items[smallest_index]:
+                return
 
-        left = self._items[left_idx] if left_idx < len(self._items) else float('inf')
-        right = self._items[right_idx] if right_idx < len(self._items) else float('inf')
-
-        smallest_child_idx = left_idx if left < right else right_idx
-
-        if self._items[index] > self._items[smallest_child_idx]:
-            self._swap(index, smallest_child_idx)
-            self._sift_down(smallest_child_idx)
+            self._swap(index, smallest_index)
+            index = smallest_index
 
     def _sift_up(self, index):
         while self._has_parent(index) and self._items[self._parent_index_of(index)] > self._items[index]:
@@ -53,25 +45,23 @@ class MinHeap:
     def _has_parent(index):
         return index > 0
 
-    @staticmethod
-    def _has_left_child(index):
-        pass
+    def _has_left_child(self, index):
+        return self._left_child_index_of(index) < len(self._items)
 
-    @staticmethod
-    def _has_right_child(index):
-        pass
+    def _has_right_child(self, index):
+        return self._right_child_index_of(index) < len(self._items)
 
     @staticmethod
     def _parent_index_of(index):
         return (index - 1) // 2
 
     @staticmethod
-    def _left_child_of(index):
-        pass
+    def _left_child_index_of(index):
+        return (index * 2) + 1
 
     @staticmethod
-    def _right_child_of(index):
-        pass
+    def _right_child_index_of(index):
+        return (index * 2) + 2
 
 
 if __name__ == '__main__':
