@@ -14,13 +14,13 @@ class MinHeap:
     def __init__(self, items=None):
         self._items = items or []
 
-        last_parent_idx = self._parent_index_of(self.size - 1)
+        parent_idx = self._parent_index_of(self.size - 1)
 
-        for parent_idx in reversed(range(last_parent_idx)):
-            self._sift_down(parent_idx)
+        for idx in reversed(range(parent_idx + 1)):
+            self._sift_down(idx)
 
     def peek(self):
-        if not self.is_empty:
+        if self._items:
             return self._items[0]
 
     def pop(self):
@@ -43,20 +43,17 @@ class MinHeap:
         self._items[i], self._items[j] = self._items[j], self._items[i]
 
     def _sift_down(self, index):
-        if index >= self.size:
-            return
-
         while self._has_left_child(index):
-            smaller_idx = self._left_child_index_of(index)
+            smallest_index = self._left_child_index_of(index)
             if self._has_right_child(index) and \
-                    self._items[self._right_child_index_of(index)] < self._items[smaller_idx]:
-                smaller_idx = self._right_child_index_of(index)
+                    self._items[self._right_child_index_of(index)] < self._items[smallest_index]:
+                smallest_index = self._right_child_index_of(index)
 
-            if self._items[index] < self._items[smaller_idx]:
+            if self._items[index] < self._items[smallest_index]:
                 return
 
-            self._swap(index, smaller_idx)
-            index = smaller_idx
+            self._swap(index, smallest_index)
+            index = smallest_index
 
     def _sift_up(self, index):
         while self._has_parent(index) and self._items[self._parent_index_of(index)] > self._items[index]:
@@ -87,7 +84,7 @@ class MinHeap:
 
 
 def main():
-    items = [int(item) for item in list('564897321')]
+    items = [int(item) for item in list('546123478965134564321465546')]
     heap = MinHeap(items=items)
     ordered = []
     while not heap.is_empty:
