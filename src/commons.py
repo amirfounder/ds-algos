@@ -1,6 +1,10 @@
 import inspect
 
 
+def swap(arr, i, j):
+    arr[i], arr[j] = arr[j], arr[i]
+
+
 def log_operations(cls):
     def log_operation(func):
         def inner(self, *args, **kwargs):

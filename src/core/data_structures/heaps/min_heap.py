@@ -1,6 +1,3 @@
-from datetime import datetime
-
-
 class MinHeap:
 
     @property
@@ -44,16 +41,16 @@ class MinHeap:
 
     def _sift_down(self, index):
         while self._has_left_child(index):
-            smallest_index = self._left_child_index_of(index)
+            smaller_index = self._left_child_index_of(index)
             if self._has_right_child(index) and \
-                    self._items[self._right_child_index_of(index)] < self._items[smallest_index]:
-                smallest_index = self._right_child_index_of(index)
+                    self._items[self._right_child_index_of(index)] < self._items[smaller_index]:
+                smaller_index = self._right_child_index_of(index)
 
-            if self._items[index] < self._items[smallest_index]:
+            if self._items[index] < self._items[smaller_index]:
                 return
 
-            self._swap(index, smallest_index)
-            index = smallest_index
+            self._swap(index, smaller_index)
+            index = smaller_index
 
     def _sift_up(self, index):
         while self._has_parent(index) and self._items[self._parent_index_of(index)] > self._items[index]:
@@ -93,5 +90,4 @@ def main():
 
 
 if __name__ == '__main__':
-    print(datetime.now().isoformat())
     main()
