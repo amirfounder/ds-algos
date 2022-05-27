@@ -15,6 +15,9 @@ class MaxHeap:
         for parent_index in reversed(range(last_parent_index + 1)):
             self._sift_down(parent_index)
 
+    def __str__(self):
+        return str(self._items)
+
     def peek(self):
         if not self.is_empty:
             return self._items[0]

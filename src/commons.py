@@ -27,8 +27,8 @@ def log_operations(cls):
     members = inspect.getmembers(cls)
     members = [member for member in members if not member[0].startswith('_') and callable(member[1])]
 
-    for name, function in members:
-        new = log_operation(function)
+    for name, method in members:
+        new = log_operation(method)
         setattr(cls, name, new)
 
     return cls
