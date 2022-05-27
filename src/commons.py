@@ -1,4 +1,5 @@
 import inspect
+import types
 
 
 def swap(arr, i, j):
@@ -6,10 +7,19 @@ def swap(arr, i, j):
 
 
 def log_operations(cls):
+
+    def stringify(obj):
+        if isinstance(obj, cls):
+            return 'self'
+        return str(obj)
+
     def log_operation(func):
-        def inner(self, *args, **kwargs):
-            _args = ', '.join([str(a) for a in args])
-            _kwargs = ', '.join([f'{k}={v}' for k, v in kwargs.items()])
+        is_static = isinstance(func, types.FunctionType)
+
+        def inner(*args, **kwargs):
+
+            _args = ', '.join([stringify(a) for a in args])
+            _kwargs = ', '.join([f'{k}={stringify(v)}' for k, v in kwargs.items()])
             _params = []
             if _args:
                 _params.append(_args)
@@ -19,9 +29,17 @@ def log_operations(cls):
 
             params = ', '.join(_params)
 
-            print(f'BEFORE fn call... "{str(func.__name__)}({params})" : {str(self)}')
-            func(self, *args, **kwargs)
-            print(f'AFTER fn call.... "{str(func.__name__)}({params})" : {str(self)}')
+            before_call_message = f'BEFORE fn call... "{str(func.__name__)}({params})"'
+            after_call_message = f'AFTER fn call.... "{str(func.__name__)}({params})"'
+            state_message = 'No State Available - Static Method Call' if not is_static else \
+                f'Instance State: {str(args[0])}'
+
+            print(' : '.join([before_call_message, state_message]))
+            result = func(*args, **kwargs)
+            print(' : '.join([after_call_message, state_message]))
+
+            return result
+
         return inner
 
     members = inspect.getmembers(cls)

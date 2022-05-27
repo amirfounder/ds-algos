@@ -1,3 +1,7 @@
+from src.commons import log_operations
+
+
+@log_operations
 class MaxHeap:
     @property
     def size(self):
