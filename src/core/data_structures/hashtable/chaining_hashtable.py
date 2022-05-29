@@ -6,8 +6,8 @@ def hash_fn(obj) -> int:
 
 
 class NIL:
-    def __init__(self, value='NIL'):
-        self.value = value
+    def __init__(self):
+        self.value = "NIL"
 
 
 class ChainingHashNode:
