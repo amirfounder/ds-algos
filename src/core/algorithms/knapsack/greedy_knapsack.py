@@ -1,3 +1,9 @@
+_values = [5, 8, 3, 3, 2, 1, 2, 100, 100, 100]
+_weights = [7, 1, 4, 1, 6, 4, 2, 5, 7, 4]
+ITEMS = list(zip(_values, _weights))
+CAPACITY = 15
+
+
 class Item:
     def __init__(self, value, weight):
         self.value = value
@@ -23,23 +29,7 @@ def knapsack_problem(items, max_weight):
 
 
 def main():
-    items = [
-        Item(value, weight) for
-        value, weight in
-        [
-            (5, 7),
-            (8, 1),
-            (3, 4),
-            (3, 1),
-            (2, 6),
-            (1, 4),
-            (2, 2),
-            (100, 5),
-            (100, 7),
-            (100, 4)
-        ]
-    ]
-    results = knapsack_problem(items, 15)
+    results = knapsack_problem([Item(v, w) for v, w in ITEMS], CAPACITY)
     total_value = sum([r.value for r in results])
     total_weight = sum([r.weight for r in results])
     for result in results:
