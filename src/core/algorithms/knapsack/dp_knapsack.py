@@ -5,30 +5,27 @@ CAPACITY = 15
 
 
 def dynamic_knapsack(idx, remaining_capacity, memo):
-    prefix = '    ' * idx
-
-    # print(prefix + 'Level: ' + str(idx))
-
     if memo[idx][remaining_capacity] is not None:
         return memo[idx][remaining_capacity]
 
-    if idx >= len(ITEMS) or remaining_capacity == 0:
+    if idx == 0 or remaining_capacity == 0:
         res = 0
     elif ITEMS[idx][1] > remaining_capacity:
-        res = dynamic_knapsack(idx + 1, remaining_capacity, memo)
+        res = dynamic_knapsack(idx - 1, remaining_capacity, memo)
     else:
-        res1 = dynamic_knapsack(idx + 1, remaining_capacity, memo)
-        res2 = dynamic_knapsack(idx + 1, remaining_capacity - ITEMS[idx][1], memo) + ITEMS[idx][0]
+        res1 = dynamic_knapsack(idx - 1, remaining_capacity, memo)
+        res2 = dynamic_knapsack(idx - 1, remaining_capacity - ITEMS[idx][1], memo) + ITEMS[idx][0]
         res = max(res1, res2)
 
-    print(prefix + 'IDX, Remaining Capacity, Result : ' + ', '.join([str(idx), str(remaining_capacity), str(res)]))
     memo[idx][remaining_capacity] = res
     return res
 
 
 def main():
-    memo = [[None] * (CAPACITY + 1)] * (len(ITEMS) + 1)
-    result = dynamic_knapsack(0, CAPACITY, memo)
+    memo = []
+    for _ in range(len(ITEMS)):
+        memo.append([None] * (CAPACITY + 1))
+    result = dynamic_knapsack(len(ITEMS) - 1, CAPACITY, memo)
     print(result)
 
 

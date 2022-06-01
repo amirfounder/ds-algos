@@ -5,10 +5,6 @@ CAPACITY = 15
 
 
 def recursive_knapsack(idx, remaining_capacity):
-    prefix = '    ' * idx
-
-    # print(prefix + 'Level: ' + str(idx))
-
     if idx == len(ITEMS) or remaining_capacity == 0:
         res = 0
     elif ITEMS[idx][1] > remaining_capacity:
@@ -17,9 +13,6 @@ def recursive_knapsack(idx, remaining_capacity):
         res1 = recursive_knapsack(idx + 1, remaining_capacity)
         res2 = recursive_knapsack(idx + 1, remaining_capacity - ITEMS[idx][1]) + ITEMS[idx][0]
         res = max(res1, res2)
-
-        print(prefix + 'IDX, RC, R, (R1, R2): ' + ', '.join([str(idx), str(remaining_capacity), str(res), str(res1),
-                                                             str(res2)]))
     return res
 
 def main():
