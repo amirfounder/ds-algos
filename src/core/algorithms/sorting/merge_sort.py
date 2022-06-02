@@ -4,49 +4,40 @@ def split_into_halves(arr):
 
 
 def merge_sort(arr):
+    # divide
     n = len(arr)
     if n <= 1:
         return arr
 
-    left, right = divide(arr)
+    mid = len(arr) // 2
+    left, right = arr[:mid], arr[mid:]
 
     merge_sort(left)
     merge_sort(right)
 
-    merge_halves(left, right, arr)
-
-
-def merge_halves(a, b, temp):
-    len_a = len(a)
-    len_b = len(b)
+    # conquer
+    len_a = len(left)
+    len_b = len(right)
     i = j = k = 0
 
     while i < len_a and j < len_b:
-        if a[i] <= b[j]:
-            temp[k] = a[i]
+        if left[i] <= right[j]:
+            arr[k] = left[i]
             i += 1
         else:
-            temp[k] = b[j]
+            arr[k] = right[j]
             j += 1
         k += 1
 
-    # temp.extend(a[i:])
-    # temp.extend(b[j:])
-
     while i < len_a:
-        temp[k] = a[i]
+        arr[k] = left[i]
         i += 1
         k += 1
 
     while j < len_b:
-        temp[k] = b[j]
+        arr[k] = right[j]
         j += 1
         k += 1
-
-
-divide_and_conquer = merge_sort
-divide = split_into_halves
-conquer = merge_halves
 
 
 if __name__ == '__main__':
